@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manipulating CSS</title>
+    
+    <style>
+      #ex1{
+        float: left;
+        margin: 5px;
+        padding: 15px;
+        max-width: 300px;
+        height: 300px;
+        border: 1px solid black;
+      } 
+      #demo{
+        color: blue;
+      }
+    </style>
+  </head>
+
+  <body>
+
+    <h1 id="dbl" ondblclick="demo()">Manipulating CSS using JavaScript</h1>
+
+    <div id="ex1" onclick="onClick()">
+      <h2 id="demo" onmouseover="mouseOver()" onmouseout="mouseOut()">This is an example.</h2>
+      <p id="p1" onmousemove="changeSentence()" >I am manipulating the css using the javascript.</p>
+    </div>
+  </body>
+
+  <script type="text/javascript">
+    function mouseOver() {
+      document.getElementById("demo").style.color = "red";
+    }
+
+    function mouseOut() {
+      document.getElementById("demo").style.color = "blue";
+    }
+
+    function onClick(){
+      document.getElementById("ex1").style.border = "2px double blue";
+    }
+
+    function demo(){
+      document.getElementById("dbl").style.fontSize = "48px";
+      document.getElementById("dbl").style.fontFamily = "Courier New";
+      document.getElementById("dbl").style.fontWeight = "bold";
+    }
+
+    function changeSentence(){
+      document.getElementById("p1").style.marginLeft = "100px";
+      document.getElementById("p1").innerHTML = "I changed the sentenced.";
+    }
+  </script>
+</html>
