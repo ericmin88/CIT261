@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Animate</title>
+    
+    <style>
+      #container {
+      width: 400px;
+      height: 400px;
+      position: relative;
+      background: green;
+      }
+      #animate {
+      border-radius: 50%;
+      width: 50px;
+      height: 50px;
+      position: absolute;
+      background-color: blue;
+      }
+
+      #redbox {
+      width: 50px;
+      height: 50px;
+      position: absolute;
+      background-color: blue;
+      }
+
+
+    </style>
+  </head>
+
+  <body onload="animate">
+
+    <div id="container">
+      <div id="animate"></div>
+    </div>
+    <div>
+    <button type="button"  onclick="loops()">Click</button>
+    <div id="redbox"></div>
+    </div>
+  </body>
+
+  <script type="text/javascript">
+
+  
+    var left = 0,
+    id = setInterval(goRight, 5); 
+    ed;
+
+function goRight() {
+    var redpixel = document.getElementById("animate");
+    left++;
+    redpixel.style.left = left + "px";
+    if (left > 350) {
+        clearInterval(id);
+        ed = setInterval(goDown, 5);
+        left=0;
+    }
+    
+}
+
+function goDown() {
+    var redpixel = document.getElementById("animate");
+    left++;
+    redpixel.style.top = left + "px";
+    if (left > 350) {
+        clearInterval(id);
+        ed = setInterval(goLeft, 5);
+        left=350;
+    }
+}
+
+function goLeft() {
+    var redpixel = document.getElementById("animate");
+    left++;
+    redpixel.style.right = left + "px";
+    if (left > 0) {
+        clearInterval(id);
+        ed = setInterval(goUp, 100);
+    }
+    
+}
+
+function goUp() {
+    var redpixel = document.getElementById("animate");
+    left++;
+    redpixel.style.bottom = left + "px";
+    if (left > 0) {
+        clearInterval(id);
+        ed = setInterval(goRight, 100);
+    }
+}
+
+function loops(){
+    var redpixel = document.getElementById("redbox");
+    var move = 0;
+    var interval = setInterval(frame, 100);
+  function frame(){
+  for(i = 0; i <=10; i++){ 
+    redpixel.style.left = move + "px";
+    move++;
+    }
+  }
+}
+
+  </script>
+</html>
