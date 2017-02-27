@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Animate</title>
+    
+    <style>
+      #redbox {
+      width: 50px;
+      height: 50px;
+      position: relative;
+      background-color: red;
+      }
+
+      #bluebox {
+      width: 50px;
+      height: 50px;
+      margin-left: 100px;
+      margin-right: 100px;
+      position: relative;
+      background-color: blue;
+      }
+
+
+    </style>
+  </head>
+
+  <body>
+    <div>
+    <button type="button"  onclick="right()">right</button>
+    <div id="redbox"></div>
+    </div>
+    <br>
+    <div>
+    <button type="button"  onclick="array()">Show Array</button>
+    <h4 id="array"></h4>
+    <h4 id="arrayIndex"></h4>
+    </div>
+    <div>
+    <button type="button"  onclick="associativeArray()">Associative Arrays</button>
+    <h4 id="asArray"></h4>
+    <h4 id="object"></h4>
+    </div>
+
+  <video width="320" height="240" controls>
+    <source src="Loops, functions, arrays, conditional statements.mp4" type="video/mp4">
+  </video>
+
+  </body>
+
+  <script type="text/javascript">
+  var marginLeft;
+  var marginRight;
+function right(){
+  var redbox = document.getElementById("redbox");
+  var move = 0;
+  var interval = setInterval(frame, 500);
+  function frame(){
+    for(i = 0; i <=10; i++){ 
+      redbox.style.left = move + "px";
+      move++;
+      if(move>100){
+        clearInterval(interval);
+        break;
+      }
+    }
+  }
+}
+
+function array(){
+  var array = ["blue","red","yellow","orange","green","purple"];
+  var arrayIndex = array.length-1;
+  document.getElementById("array").innerHTML="The values of the array are: " + array;
+  document.getElementById("arrayIndex").innerHTML="The last index in the array is: " + arrayIndex + " and the value is: " + array[arrayIndex];
+}
+
+function associativeArray(){
+
+  document.getElementById("asArray").innerHTML="Associative arrays are not supported by javascript. Instead we need to write an object";
+  var chevy= {model: "Trailblazer", year: "2002", color:"blue-gray"};
+  document.getElementById("object").innerHTML = chevy.year + " " + chevy.model + " " + chevy.color;
+  //var parse = JSON.stringify(chevy);
+  //document.getElementById("parse").innerHTML = "Using parse turned the object into a string. It now looks like this: " + parse;
+}
+
+  </script>
+</html>
