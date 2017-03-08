@@ -1,0 +1,163 @@
+<html>
+
+
+<body>
+<div id="result"></div>
+</body>
+
+<script>
+
+
+
+var customer = {
+    name: "Eric Minson",
+    speak: function(){
+        return "My name is " + this.name;
+    },
+    
+    address: {
+        street: "570 South 2nd West #4",
+        city:   "Rexburg",
+        state:  "ID", 
+        zip:    "83440"
+    }
+};
+
+/*
+document.write(customer.name + "<br />" + 
+	           customer.address.street + "<br />" +
+	           customer.address.city + ", " +
+	           customer.address.state + " " +
+	           customer.address.zip);
+*/
+
+function contactInfo(first,last,street,city,state,zip){
+	this.first = first;
+	this.last = last;
+	this.street = street;
+	this.city = city;
+	this.state = state;
+	this.zip = zip;
+
+	this.info = function(){
+		return this.first + this.last + "<br />" +
+			   this.street + "<br />" +
+			   this.city + ", " + 
+			   this.state + " " + 
+			   this.zip;
+	}
+}
+
+contactInfo.prototype.phone ="(469)422-0119";
+contactInfo.prototype.makePhone = function(){
+	return this.name + this.phone;
+}
+
+var contact = new contactInfo("Eric", "Minson", "570 South 2nd West", "Rexburg", "ID", "83440");
+
+document.write(contact.info() + "<br />" + contactInfo.prototype.phone + "<br />" + "<br />");
+
+/*
+for(var c in contact){
+	document.write(c + ": " + contact[c] + "<br />");
+}
+
+function hide(){
+	var name = "Eric Minson";
+
+	this.myName = function(n){
+		if(n != "Eric Minson"){
+			return "The name is incorrect";
+		}else{
+			return "The name is correct!!!";
+		}
+	}
+}
+
+var char = new hide();
+
+document.write(char.myName("Eric Minson"));
+*/
+
+var address = {
+	street: "NULL",
+	city: "NULL",
+	state: "NULL",
+
+get getAddress(){
+	return this.street + ", " + this.city + " " + this.state;
+},
+
+set setAddress(theAddress){
+	var parts = theAddress.split(", ");
+	this.street = parts[0] || "";
+	this.city = parts[1] || "";
+	this.state = parts[2] || "";
+}
+}
+
+address.setAddress = "3132 Longleaf LN, McKinney, TX" + "<br />";
+document.write(address.getAddress);
+
+
+//circle
+/*
+function directory(lastname,firstname){
+	this.lastname = lastname;
+	this.firstname = firstname;
+
+	this.info = function(){
+		return	this.lastname + "<br />" +
+				this.firstname + "<br />";
+}
+*/
+
+var person = function contactInformation(lastname,firstname,street,city,state,zip,email,phone){
+	this.street = street;
+	this.city = city;
+	this.state = state;
+	this.zip = zip;
+	this.email = email;
+	this.phone = phone;
+
+	this.info = function(){
+		return	this.lastname + "<br />" +
+				this.firstname + "<br />" +
+				this.street + "<br />" +
+				this.city + "<br />" +
+				this.state + "<br />" +
+				this.zip + "<br />" +
+				this.email + "<br />" +
+				this.phone + "<br />";
+	}
+}
+
+
+
+/*
+function directoryType(lastname,firstname,street,city,state,zip,email,phone,type){
+	contactInformation.call(this,lastname,firstname,street,city,state,zip,email,phone);
+	this.type = type;
+
+	return	this.lastname + "<br />" +
+				this.firstname + "<br />" +
+				this.street + "<br />" +
+				this.city + "<br />" +
+				this.state + "<br />" +
+				this.zip + "<br />" +
+				this.email + "<br />" +
+				this.phone + "<br />" +
+				this.type;
+}
+
+var student = new directoryType("Ririe", "Adam","508 West 30 South","Rexburg","ID","83440","email@email.com","(111)222-3333","student");
+//var teacher = 
+//var faculty =
+
+document.write("<br />");
+document.write(student.directoryType)
+*/
+
+
+</script>
+</html>
