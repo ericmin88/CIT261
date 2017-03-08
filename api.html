@@ -1,0 +1,71 @@
+<html>
+<body>
+	<div>
+		<form>
+			First Name: <input type="text" id="first"><br />
+			Last Name: <input type="text" id="last" style="margin-left: 2px;"><br />
+			Street: <input type="text" id="street" style="margin-left: 34px;"><br />
+			City: <input type="text" id="city" style="margin-left: 44px;"><br />
+			State: <input type="text" id="state" style="margin-left: 40px;"><br />
+			Zip Code: <input type="text" id="zip" style="margin-left: 12px;"><br />
+			Email: <input type="text" id="email" style="margin-left: 33px;"><br />
+		<button type="button" onclick="api()" style="margin-left: 80px;">Save</button>
+		</form>
+	</div>
+	<br />
+	<div>
+	<p>Local Storage Array</p>
+	<p id="arrayPerson"></p>
+	<br />
+	<p>Local Storage Object</p>
+	<p id="object"></p>
+	</div>
+
+
+<body>
+
+
+<script>
+
+function api(){
+	var first = String(document.getElementById('first').value);
+	var last = String(document.getElementById('last').value);
+	var street = String(document.getElementById('street').value);
+	var city = String(document.getElementById('city').value);
+	var state = String(document.getElementById('state').value);
+	var zip = String(document.getElementById('zip').value);
+	var email = String(document.getElementById('email').value);
+
+	var arrayPerson = [first,last,street,city,state,zip,email];
+	
+	var objectPerson = {First:first,Last:last,Street:street,City:city,State:state,Zip:zip,Email:email};
+    var objPerson = JSON.stringify(objectPerson);
+	localStorage.object = objPerson;
+	document.getElementById('object').innerHTML = localStorage.object;
+	
+
+	localStorage.firstname = first;
+	localStorage.lastname = last;
+	localStorage.streetname = street;
+	localStorage.cityname = city;
+	localStorage.statename = state;
+	localStorage.zipcode = zip;
+	localStorage.useremail = email;
+	localStorage.arrPerson = arrayPerson;
+
+	document.getElementById('arrayPerson').innerHTML = localStorage.arrPerson;
+}
+
+
+
+document.getElementById('first').value = localStorage.firstname;
+document.getElementById('last').value = localStorage.lastname;
+document.getElementById('street').value = localStorage.streetname;
+document.getElementById('city').value = localStorage.cityname;
+document.getElementById('state').value = localStorage.statename;
+document.getElementById('zip').value = localStorage.zipcode;
+document.getElementById('email').value = localStorage.useremail;
+document.getElementById('arrayPerson').innerHTML = localStorage.arrPerson;
+document.getElementById('object').innerHTML = localStorage.object;
+</script>
+</html>
