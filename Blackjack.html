@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Blackjack Card Game</title>
+	</head>
+	<style>
+	#card{
+		max-width: 110px;
+	}
+	</style>
+
+	<body style="background: forestgreen;">
+		<h1>Let's Play Backjack</h1>
+		<p id="card"></p>
+		<p id="value"></p>
+		<br />
+		<button type="button" onclick="PlayBlackjack()">Hit Me</button>
+		<button type="button" onclick="Stand()">Stand</button>
+		<button type="button" onclick="Clear()">Play Again</button>
+		<br />
+		<P id="busted"></P>
+		<h4 id='your_score'></h4>
+		<p id="total"></p>
+		<h4 id="your_cards"></h4>
+		<p id="used_cards"></p>
+	</body>
+	<script>
+		//GLOBAL VARIABLES FOR THE ARRAY OF CARDS PLAYED, SCORE AND FOR PLAY OUTCOMES
+		var masterPlayedCards = " ";
+		var masterTotal = 0;
+		var masterDealerPlayedCards = " ";
+		var masterDealerTotal = 0;
+		var busted = " ";
+		var masterRandom = "";
+		//ARRAY DECK OF CARDS
+		var deckOfCards = [ "<img style=max-width:85px src=img/Ace%20of%20Clubs.png>"       //		INDEX : 0  Clubs(0-12)
+				  , "<img style=max-width:85px src=img/Two%20of%20Clubs.png>"       //		INDEX : 1
+				  , "<img style=max-width:85px src=img/Three%20of%20Clubs.png>"     //		INDEX : 2
+				  , "<img style=max-width:85px src=img/Four%20of%20Clubs.png>"      //		INDEX : 3
+				  , "<img style=max-width:85px src=img/Five%20of%20Clubs.png>"      //		INDEX : 4
+				  , "<img style=max-width:85px src=img/Six%20of%20Clubs.png>"       //		INDEX : 5
+				  , "<img style=max-width:85px src=img/Seven%20of%20Clubs.png>"     //		INDEX : 6
+				  , "<img style=max-width:85px src=img/Eight%20of%20Clubs.png>"     //		INDEX : 7
+				  , "<img style=max-width:85px src=img/Nine%20of%20Clubs.png>"      //		INDEX : 8
+				  , "<img style=max-width:85px src=img/Ten%20of%20Clubs.png>"	    //		INDEX : 9
+				  , "<img style=max-width:85px src=img/Jack%20of%20Clubs.png>"      //		INDEX : 10
+				  , "<img style=max-width:85px src=img/Queen%20of%20Clubs.png>"     //		INDEX : 11
+				  , "<img style=max-width:85px src=img/King%20of%20Clubs.png>"      //		INDEX : 12
+				  , "<img style=max-width:85px src=img/Ace%20of%20Diomands.png>"    //		INDEX : 13  Diomands(13-25)
+				  , "<img style=max-width:85px src=img/Two%20of%20Diomands.png>"    //   	INDEX : 14
+				  , "<img style=max-width:85px src=img/Three%20of%20Diomands.png>"  //		INDEX : 15
+				  , "<img style=max-width:85px src=img/Four%20of%20Diomands.png>"   //		INDEX : 16
+				  , "<img style=max-width:85px src=img/Five%20of%20Diomands.png>"   //		INDEX : 17
+				  , "<img style=max-width:85px src=img/Six%20of%20Diomands.png>"    //		INDEX : 18
+				  , "<img style=max-width:85px src=img/Seven%20of%20Diomands.png>"  //		INDEX : 19
+				  , "<img style=max-width:85px src=img/Eight%20of%20Diomands.png>"  //		INDEX : 20
+				  , "<img style=max-width:85px src=img/Nine%20of%20Diomands.png>"   //		INDEX : 21
+				  , "<img style=max-width:85px src=img/Ten%20of%20Diomands.png>"    //		INDEX : 22
+				  , "<img style=max-width:85px src=img/Jack%20of%20Diomands.png>"   //		INDEX : 23
+				  , "<img style=max-width:85px src=img/Queen%20of%20Diomands.png>"  //		INDEX : 24
+				  , "<img style=max-width:85px src=img/King%20of%20Diomands.png>" 	//		INDEX : 25
+				  , "<img style=max-width:85px src=img/Ace%20of%20Hearts.png>"      //		INDEX : 26  Hearts(26-38)
+				  , "<img style=max-width:85px src=img/Two%20of%20Hearts.png>"    	//   	INDEX : 27
+				  , "<img style=max-width:85px src=img/Three%20of%20Hearts.png>"  	//		INDEX : 28
+				  , "<img style=max-width:85px src=img/Four%20of%20Hearts.png>"   	//		INDEX : 29
+				  , "<img style=max-width:85px src=img/Five%20of%20Hearts.png>"   	//		INDEX : 30
+				  , "<img style=max-width:85px src=img/Six%20of%20Hearts.png>"    	//		INDEX : 31
+				  , "<img style=max-width:85px src=img/Seven%20of%20Hearts.png>"  	//		INDEX : 32
+				  , "<img style=max-width:85px src=img/Eight%20of%20Hearts.png>"  	//		INDEX : 33
+				  , "<img style=max-width:85px src=img/Nine%20of%20Hearts.png>"   	//		INDEX : 34
+				  , "<img style=max-width:85px src=img/Ten%20of%20Hearts.png>"	 	//		INDEX : 35
+				  , "<img style=max-width:85px src=img/Jack%20of%20Hearts.png>"   	//		INDEX : 36
+				  , "<img style=max-width:85px src=img/Queen%20of%20Hearts.png>"  	//		INDEX : 37
+				  , "<img style=max-width:85px src=img/King%20of%20Hearts.png>"   	//		iNDEX : 38
+				  , "<img style=max-width:85px src=img/Ace%20of%20Spades.png>"    	//		INDEX : 39  Spades(39-51)
+				  , "<img style=max-width:85px src=img/Two%20of%20Spades.png>"   	//   	INDEX : 40
+				  , "<img style=max-width:85px src=img/Three%20of%20Spades.png>"  	//		INDEX : 41
+				  , "<img style=max-width:85px src=img/Four%20of%20Spades.png>"   	//		INDEX : 42
+				  , "<img style=max-width:85px src=img/Five%20of%20Spades.png>"   	//		INDEX : 43
+				  , "<img style=max-width:85px src=img/Six%20of%20Spades.png>"    	//		INDEX : 44
+				  , "<img style=max-width:85px src=img/Seven%20of%20Spades.png>"  	//		INDEX : 45
+				  , "<img style=max-width:85px src=img/Eight%20of%20Spades.png>"  	//		INDEX : 46
+				  , "<img style=max-width:85px src=img/Nine%20of%20Spades.png>"   	//		INDEX : 47
+				  , "<img style=max-width:85px src=img/Ten%20of%20Spades.png>"	 	//		INDEX : 48
+				  , "<img style=max-width:85px src=img/Jack%20of%20Spades.png>"  	//		INDEX : 49
+				  , "<img style=max-width:85px src=img/Queen%20of%20Spades.png>"  	//		INDEX : 50
+				  , "<img style=max-width:85px src=img/King%20of%20Spades.png>" ];  //		iNDEX : 51
+
+		//PRINT OUT ARRAY TO VARIFY
+		/* for(var i=0; i<deckOfCards.length;i++){
+			document.write(deckOfCards[i] + "<br />");
+ 		} */	
+
+ 		//FUNCTION EXECUTES WHEN USER HIT THE BUTTON HIT ME
+		function PlayBlackjack(){
+			//GENERATE A RANDOM WHOLE NUMBER BETWEEN 0 AND 51
+			var random = Math.floor((Math.random() * 51));
+			masterRandom += random + ' ';
+			var randomArray = masterRandom.split(' ');
+
+			for(var i = 0; i<randomArray.length; i++){
+				if(random == randomArray[i]){
+					random = Math.floor((Math.random() * 51));
+				}
+			}
+			//IF STATEMENT TO DETERMINE THE VALUE FROM THE RANDOM NUMBER
+		      	  if(random == 0  || random == 13 || random == 26 || random == 39){
+				var numb = 1;
+				var value = "+ 1";
+			}else if(random == 1  || random == 14 || random == 27 || random == 40){
+				var numb = 2;
+				var value = "+ 2";
+			}else if(random == 2  || random == 15 || random == 28 || random == 41){
+				var numb = 3;
+				var value = "+ 3";
+			}else if(random == 3  || random == 16 || random == 29 || random == 42){
+				var numb = 4;
+				var value = "+ 4";
+			}else if(random == 4  || random == 17 || random == 30 || random == 43){
+				var numb = 5;
+				var value = "+ 5";
+			}else if(random == 5  || random == 18 || random == 31 || random == 44){
+				var numb = 6;
+				var value = "+ 6";
+			}else if(random == 6  || random == 19 || random == 32 || random == 45){
+				var numb = 7;
+				var value = "+ 7";
+			}else if(random == 7  || random == 20 || random == 33 || random == 46){
+				var numb = 8;
+				var value = "+ 8";
+			}else if(random == 8  || random == 21 || random == 34 || random == 47){
+				var numb = 9;
+				var value = "+ 9";
+			}else if(random == 9  || random == 22 || random == 35 || random == 48){
+				var numb = 10;
+				var value = "+ 10";
+			}else if(random == 10 || random == 23 || random == 36 || random == 49){
+				var numb = 11;
+				var value = "+ 11";
+			}else if(random == 11 || random == 24 || random == 37 || random == 50){
+				var numb = 12;
+				var value = "+ 12";
+			}else if(random == 12 || random == 25 || random == 38 || random == 51){
+				var numb = 13;
+				var value = "+ 13";
+			}else{
+
+			}
+
+			//VARIABLE TO STORE THE SELECTED CARD
+			PlayedCards = deckOfCards[random];
+			//CREATES AN ARRAY
+			masterPlayedCards += PlayedCards;
+			masterTotal += numb;
+			if (masterTotal >= 0 && masterTotal<= 20){
+				var busted = "You are are under 21"
+			} else if(masterTotal == 21){
+				var busted = "<h4>You are at 21<h4>"
+			}else{
+				var busted = "<h4>Dealer Wins, you busted</h4>"
+			}
+
+			document.getElementById('card').innerHTML = deckOfCards[random];
+			//document.getElementById('value').innerHTML = value;
+			document.getElementById('busted').innerHTML = busted;
+
+			document.getElementById('your_score').innerHTML = "Your Score";
+			document.getElementById('total').innerHTML =  masterTotal;
+
+			document.getElementById('your_cards').innerHTML = "Your Cards";
+			document.getElementById('used_cards').innerHTML = masterPlayedCards;
+		}
+
+		function Stand(){
+			if(masterTotal <=21){
+			while(masterDealerTotal < 17){
+
+				//GENERATE A RANDOM WHOLE NUMBER BETWEEN 0 AND 51
+			var random = Math.floor((Math.random() * 51));
+			masterRandom += random + ' ';
+			var randomArray = masterRandom.split(' ');
+
+			for(var i = 0; i<randomArray.length; i++){
+				if(random == randomArray[i]){
+					random = Math.floor((Math.random() * 51));
+				}
+			}
+			//IF STATEMENT TO DETERMINE THE VALUE FROM THE RANDOM NUMBER
+		      	  if(random == 0  || random == 13 || random == 26 || random == 39){
+				var numb = 1;
+				var value = "+ 1";
+			}else if(random == 1  || random == 14 || random == 27 || random == 40){
+				var numb = 2;
+				var value = "+ 2";
+			}else if(random == 2  || random == 15 || random == 28 || random == 41){
+				var numb = 3;
+				var value = "+ 3";
+			}else if(random == 3  || random == 16 || random == 29 || random == 42){
+				var numb = 4;
+				var value = "+ 4";
+			}else if(random == 4  || random == 17 || random == 30 || random == 43){
+				var numb = 5;
+				var value = "+ 5";
+			}else if(random == 5  || random == 18 || random == 31 || random == 44){
+				var numb = 6;
+				var value = "+ 6";
+			}else if(random == 6  || random == 19 || random == 32 || random == 45){
+				var numb = 7;
+				var value = "+ 7";
+			}else if(random == 7  || random == 20 || random == 33 || random == 46){
+				var numb = 8;
+				var value = "+ 8";
+			}else if(random == 8  || random == 21 || random == 34 || random == 47){
+				var numb = 9;
+				var value = "+ 9";
+			}else if(random == 9  || random == 22 || random == 35 || random == 48){
+				var numb = 10;
+				var value = "+ 10";
+			}else if(random == 10 || random == 23 || random == 36 || random == 49){
+				var numb = 11;
+				var value = "+ 11";
+			}else if(random == 11 || random == 24 || random == 37 || random == 50){
+				var numb = 12;
+				var value = "+ 12";
+			}else if(random == 12 || random == 25 || random == 38 || random == 51){
+				var numb = 13;
+				var value = "+ 13";
+			}else{
+
+			}
+
+			//VARIABLE TO STORE THE SELECTED CARD
+			PlayedCards = deckOfCards[random];
+			//CREATES AN ARRAY
+			masterDealerPlayedCards += PlayedCards;
+			masterDealerTotal += numb;
+
+			document.getElementById('card').innerHTML = deckOfCards[random];
+			//document.getElementById('value').innerHTML = value;
+			
+
+			document.getElementById('your_score').innerHTML = "Dealers Score";
+			document.getElementById('total').innerHTML =  masterDealerTotal;
+
+			document.getElementById('your_cards').innerHTML = "Dealers Cards";
+			document.getElementById('used_cards').innerHTML = masterDealerPlayedCards;
+			}
+
+			if(masterTotal == masterDealerTotal){
+				var result = "<h4>It's a tie</h4>" + "Your Score: " + masterTotal + "<br />" + "Dealers Score: " + masterDealerTotal;
+			}else if(masterTotal <= 21 && masterTotal > masterDealerTotal){
+				var result = "<h4>You Win!!</h4>" + "Your Score: " + masterTotal + "<br />" + "Dealers Score: " + masterDealerTotal;
+			}else if(masterDealerTotal > 21){
+				var result = "<h4>You Win!!</h4>" + "Your Score: " + masterTotal + "<br />" + "Dealers Score: " + masterDealerTotal;
+			}else{
+				var result = "<h4>The Dealer Wins</h4> <br>" + "Your Score: " + masterTotal + "<br />" + "Dealers Score: " + masterDealerTotal;
+			}
+
+			document.getElementById('busted').innerHTML = result;
+			}else{
+				document.getElementById('busted').innerHTML = "<h4>Dealer Wins, you busted</h4>";
+			}
+		}
+
+		function Clear(){
+			location.reload();
+		}
+	</script>
+</html>
